@@ -1,0 +1,75 @@
+<!-- templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spotify Video Generator - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h1 class="text-4xl mb-6 text-center text-green-600 font-bold">Spotify Video Generator</h1>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- Playlists Section -->
+            <div>
+                <h2 class="text-2xl mb-4">Your Playlists</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    {% for playlist in playlists %}
+                        <div class="mb-4">
+                            <h3 class="text-xl font-semibold mb-2">{{ playlist.name }}</h3>
+                            <form action="/generate_video" method="post" class="space-y-2">
+                                <select name="song_id" class="w-full p-2 border rounded mb-2">
+                                    {% for track in playlist.tracks %}
+                                        <option value="{{ track.id }}">
+                                            {{ track.name }} - {{ track.artists[0].name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                
+                                <input type="text" 
+                                       name="art_style" 
+                                       placeholder="Video style (e.g., cinematic, anime)" 
+                                       class="w-full p-2 border rounded mb-2">
+                                
+                                <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
+                                    Generate Video
+                                </button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Liked Songs Section -->
+            <div>
+                <h2 class="text-2xl mb-4">Liked Songs</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <form action="/generate_video" method="post" class="space-y-2">
+                        <select name="song_id" class="w-full p-2 border rounded mb-2">
+                            {% for song in liked_songs %}
+                                <option value="{{ song.id }}">
+                                    {{ song.name }} - {{ song.artists[0].name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        
+                        <input type="text" 
+                               name="art_style" 
+                               placeholder="Video style (e.g., cyberpunk, impressionist)" 
+                               class="w-full p-2 border rounded mb-2">
+                        
+                        <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
+                            Generate Video
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 text-center">
+            <a href="/logout" class="text-red-500 hover:underline">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

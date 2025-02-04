@@ -1,0 +1,38 @@
+<!-- templates/art_result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generated Art</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md text-center">
+        <h1 class="text-2xl mb-4">Your Generated Art</h1>
+        <img src="{{ image_url }}" alt="Generated Art" class="mx-auto mb-4 max-w-full rounded-lg">
+        
+        <div class="flex justify-center space-x-4">
+            <a href="/dashboard" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                Generate Another
+            </a>
+            <button onclick="downloadImage()" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
+                Download
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function downloadImage() {
+            const imageUrl = "{{ image_url }}";
+            fetch(imageUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'generated_art.png';
+                    link.click();
+                });
+        }
+    </script>
+</body>
+</html>
