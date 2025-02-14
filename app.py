@@ -228,10 +228,8 @@ def generate_video_huggingface(image_path, prompt):
         return None
 
 
-# Modify generate_video route in main app
 @app.route('/generate_video', methods=['POST'])
 def generate_video():
-    """Generate video from album cover using Hugging Face"""
     sp = get_spotify_client()
     if not sp:
         return redirect('/')
