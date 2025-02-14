@@ -172,7 +172,12 @@ def generate_video_huggingface(image_path, prompt):
     #     token=os.getenv('HUGGINGFACE_API_TOKEN'),
     #     model="cerspense/zeroscope_v2_576w"
     # )
+    
     pipeline = I2VGenXLPipeline.from_pretrained("ali-vilab/i2vgen-xl", torch_dtype=torch.float32)
+    
+    # load weights from local directory 
+    # pipeline = I2VGenXLPipeline.from_pretrained("./models/i2vgen-xl", torch_dtype=torch.float32)
+
     # Read and encode image
     # with open(image_path, "rb") as image_file:
     #     base64_image = base64.b64encode(image_file.read()).decode('utf-8')
@@ -185,7 +190,8 @@ def generate_video_huggingface(image_path, prompt):
     frames = pipeline(
         prompt=prompt,
         image=image,
-        num_inference_steps=100,
+        # num_inference_steps=100,
+        num_inference_steps = 50,
         # negative_prompt=negative_prompt,
         guidance_scale=9.0,
         generator=generator
